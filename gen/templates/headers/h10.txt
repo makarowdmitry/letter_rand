@@ -1,0 +1,8 @@
+Message-ID: <[%%ORandStr,7-10,1-9,U%%].[%%HCurrentYear%%][%%HCurrentMonth%%][%%HCurrentDay%%][%%HCurrentHour%%][%%HCurrentMin%%][%%HCurrentSec%%]@[%%HFromEmailDomain%%]>
+Date: [%%HCurrentRFCDateTime%%]
+From: [%%HEncodedFullFrom%%]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Thunderbird/24.3.0 Lightning/2.6.4
+MIME-Version: 1.0
+To: [%%FEmail%%]
+Subject: [%%HSubject%%]
+Content-Type: [%%HMsgContentType%%]

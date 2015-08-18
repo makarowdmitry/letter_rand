@@ -1,0 +1,8 @@
+Message-ID: <[%%ORandStr,7-10,1-9,U%%].[%%HCurrentYear%%][%%HCurrentMonth%%][%%HCurrentDay%%][%%HCurrentHour%%][%%HCurrentMin%%][%%HCurrentSec%%]@[%%HFromEmailDomain%%]>
+Date: [%%HCurrentRFCDateTime%%]
+From: [%%HEncodedFullFrom%%]
+User-Agent: Outlook-Express/7.0 (MSIE 7.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; TmstmpExt)
+MIME-Version: 1.0
+To: [%%FEmail%%]
+Subject: [%%HSubject%%]
+Content-Type: [%%HMsgContentType%%]
