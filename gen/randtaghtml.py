@@ -7,9 +7,10 @@ import re
 
 class Tag():
 	spaces = [' ','']
-	spaces_words = [' ','   ']
+	spaces_words = [' ','   ','  ']
 	tabs = ['\n','','\n\n','\t','\t\n','\n\n\n\n','\n\n\n']
 	punctuation = [',','!','?','.','.','.',',','','','-',';',':']
+	br_tag=['<br >','<br/>','<br>','','']
 	
 
 	tag = {
@@ -317,6 +318,18 @@ class Tag():
 			words =' '.join(list_words)
 			return words
 
+	def spaces(self,match):
+		spaces = random.choice(self.spaces_words)
+		return spaces
+
+	def tabss(self,match):
+		tabsr = random.choice(self.tabs)
+		return tabsr
+
+	def replace_br(self,match):
+		br = random.choice(self.br_tag)
+		return br
+
 	def body(self,filename,counttext):
 		# _BORDER_ 
 		# _WIDTH_X_Y_
@@ -334,60 +347,64 @@ class Tag():
 		# _LINK1_
 		# _LINK2_
 		# _IMG_
-		# _LINKTEXT_
-
-
-		
+		# _LINKTEXT_		
 
 		html = open('gen/templates/body/'+filename,'r').read()
 		body = ''
 
-		#added content
+		###CONTENT GENERATE
+
+		#HELLO GENERATE
 		hello_raw = open('gen/templates/hello.txt','r').readlines()
 		hello = hello_raw[counttext%len(hello_raw)]
 
+		#TEXT GENERATE
 		text = open('gen/templates/text.txt','r').readlines()
-		text = text[counttext%len(text)]		
+		text = text[counttext%len(text)]
 
+		# Processing synonyms
 		regex_synonyms = re.compile(r'(?P<synonyms>{[^{}]+})')
-
 		while text.find('{')!= -1:
 			text = regex_synonyms.sub(self.synonyms,text)
 
-
+		# Processing mix
 		regex_mix = re.compile(r'(?P<mix>\[[^\[\]]+\])')
-
 		while text.find('[')!= -1:
 			text = regex_mix.sub(self.mix,text)
 
+		# Replace spaces
+		spaces = re.compile(r'(_SPACES_)')
+		while text.find('_SPACES_')!= -1:
+			text = spaces.sub(self.spaces,text)
 
-		textnew= text.capitalize()
+		# Replace tabs
+		tabs = re.compile(r'(_TAB_)')
+		while text.find('_TAB_')!= -1:
+			text = tabs.sub(self.tabss,text)
 
+		# Replace br
+		brs = re.compile(r'(_BR_)')
+		while text.find('_BR_')!= -1:
+			text = brs.sub(self.replace_br,text)
 
-		if len(text.split('.'))>1: list_txt= text.split('.'); text = '.'.join(list_txt).capitalize()
-		
-
-
-	
+		#TEXT_BUTTON GENERATE
 		button_text_raw = open('gen/templates/button_text.txt','r').readlines()
 		button_text = button_text_raw[counttext%len(button_text_raw)]
 
-		# links
+		#LINKS GENERATE
 		random_link1 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
 		random_link2 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
-		random_img = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
-		
+		random_img = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))		
 		domain = open('gen/templates/domain.txt','r').read().strip()
 		link1 = domain+'/'+random_link1
 		link2 = domain+'/'+random_link2
-		img = 'mig'#domain+'/'+random_img+'.jpg'
-		
+		img = domain+'/'+random_img+'.jpg'
 
+		body += html.replace('_HELLO_', hello).replace('_TEXT_', text).replace('_LINK1_',link1).replace('_LINK2_',link2).replace('_IMG_',img).replace('_BUTTONTEXT_',button_text)
 
-		body += html.replace('_HELLO_', hello).replace('_TEXT_', textnew).replace('_LINK1_',link1).replace('_LINK2_',link2).replace('_IMG_',img).replace('_BUTTONTEXT_',button_text)
+		###CONTENT GENERATE END
 
+		###STYLE GENERATE
 
-		
-		
+		###STYLE GENERATE END
 		return body
-
