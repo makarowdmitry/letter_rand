@@ -4,6 +4,7 @@ import gen
 from randtaghtml import *
 import random
 import math
+import os
 
 
 # 1. Вычленяем из макета все что можно зарандомить
@@ -28,10 +29,14 @@ def body(request):
 	new_counter.write(str(1+counter))
 	new_counter.close()
 
+	files_html = os.listdir('gen/templates/body')
+	filename = random.choice(files_html)
 
-	a = tag.body(filename='1.html',counttext=counttext)
 
-	# fake_tag1 = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
+
+	a = tag.body(filename=filename,counttext=counttext)
+
+	# a = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
 	# fake_tag2 = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
 	
 	

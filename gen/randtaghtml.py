@@ -6,8 +6,8 @@ import re
 
 
 class Tag():
-	spaces = [' ','']
-	spaces_words = [' ','   ','  ']
+	spaces_s = [' ','','']
+	spacewords = [' ','   ']
 	tabs = ['\n','','\n\n','\t','\t\n','\n\n\n\n','\n\n\n']
 	punctuation = [',','!','?','.','.','.',',','','','-',';',':']
 	br_tag=['<br >','<br/>','<br>','','']
@@ -39,7 +39,7 @@ class Tag():
 				word += ''.join(abc_list)
 
 			if i>0:
-				words+=word+random.choice(self.spaces_words)
+				words+=word+random.choice(self.spacewords)
 				if i%4==0:
 					words+=random.choice(self.punctuation)
 			else:
@@ -119,7 +119,7 @@ class Tag():
 		list_attr = []
 		for a in attr_style:
 			qoutes = random.choice(['\'','\"'])
-			a = random.choice(self.spaces)+a+random.choice(self.spaces)+':'+random.choice(self.spaces)+attr[a]+random.choice(self.spaces)+';'
+			a = random.choice(self.spaces_s)+a+random.choice(self.spaces_s)+':'+random.choice(self.spaces_s)+attr[a]+random.choice(self.spaces_s)+';'
 			list_attr.append(a)
 
 		string_style = ' '.join(list_attr)
@@ -201,15 +201,15 @@ class Tag():
 		list_attr = []
 		for a in attr_tags:
 			qoutes = random.choice(['\'','\"'])
-			a = random.choice(self.spaces)+a+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+attr[a]+random.choice(self.spaces)+qoutes+random.choice(self.spaces)
+			a = random.choice(self.spaces_s)+a+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes+random.choice(self.spaces_s)+attr[a]+random.choice(self.spaces_s)+qoutes+random.choice(self.spaces_s)
 			list_attr.append(a)
 
 		qoutes = random.choice(['\'','\"'])
-		string_attrs = ' '.join(list_attr+[random.choice(['data-'+self.word_gen(1,'eng')+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes+random.choice(self.spaces)+self.word_gen(1,'eng')+random.choice(self.spaces)+qoutes,'','','',''])])
+		string_attrs = ' '.join(list_attr+[random.choice(['data-'+self.word_gen(1,'eng')+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes+random.choice(self.spaces_s)+self.word_gen(1,'eng')+random.choice(self.spaces_s)+qoutes,'','','',''])])
 
 		return string_attrs
 
-	def tag_fake(self,tagname,count=1,opacity='no',lang='eng'):
+	def tag_fake(self,tagname,count=1,opacity='no',lang='eng',text='no'):
 		if opacity=='opacity':
 			style_table = self.attr_gen(tagname,opacity)
 		else:
@@ -217,19 +217,22 @@ class Tag():
 		
 		tag_str = ''
 		for i in range(0,count):
-			table = '<'+tagname+' '+random.choice(self.spaces)+style_table+random.choice(self.spaces)+'>'+random.choice(self.tabs)
-			table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table = '<'+tagname+' '+random.choice(self.spaces_s)+style_table+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
+			table += '<tbody '+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 
 			# Генерим tr 
 			for tr in xrange(random.randint(1,7)):
-				# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
-				table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				# td = '<'+random.choice(self.spaces_s)+'td'+random.choice(self.spaces_s)+attr_gen('td')+random.choice(self.spaces_s)+'>'
+				table += '<tr '+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 				for i in xrange(random.randint(1,4)):
-					td = '<td '+random.choice(self.spaces)+self.attr_gen('td')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(1,27),lang)+'</td'+random.choice(self.spaces)+'>'
+					if text=='no':
+						td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td')+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
+					else:
+						td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td')+random.choice(self.spaces_s)+'>'+self.word_gen(random.randint(1,27),lang)+'</td'+random.choice(self.spaces_s)+'>'
 					table += td+random.choice(self.tabs)
-				table += '</tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				table += '</tr'+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 
-			table += '</tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '</tbody'+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 			tag_str += table
 
 		return tag_str
@@ -244,13 +247,13 @@ class Tag():
 		
 		tag_str = ''
 		for i in range(0,count):
-			table = '<'+tagname+' '+random.choice(self.spaces)+style_table+random.choice(self.spaces)+'>'+random.choice(self.tabs)
-			table += '<tbody '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table = '<'+tagname+' '+random.choice(self.spaces_s)+style_table+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
+			table += '<tbody '+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 
 			# Генерим tr 
 			for i,tr in enumerate(xrange(random.randint(1,7))):
-				# td = '<'+random.choice(self.spaces)+'td'+random.choice(self.spaces)+attr_gen('td')+random.choice(self.spaces)+'>'
-				table += '<tr '+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				# td = '<'+random.choice(self.spaces_s)+'td'+random.choice(self.spaces_s)+attr_gen('td')+random.choice(self.spaces_s)+'>'
+				table += '<tr '+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 
 				if i == 0:
 					count_td = random.randint(1,4)
@@ -263,29 +266,29 @@ class Tag():
 							qoutes_a2 = random.choice(['\'','\"'])
 							qoutes_img = random.choice(['\'','\"'])
 							# Картинка в ссылке + текст + ссылки текстовые							
-							td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces)+random.choice(['<br/>'+random.choice(self.spaces),'<br/>'+random.choice(self.spaces)+'<br/>'])+random.choice(self.spaces)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'[%%ORandText,paysystem3713_link%%]'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'</p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'<br/>'+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces_s)+'>'+'<p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces_s)+random.choice(['<br/>'+random.choice(self.spaces_s),'<br/>'+random.choice(self.spaces_s)+'<br/>'])+random.choice(self.spaces_s)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'[%%ORandText,paysystem3713_link%%]'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'</p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'<br/>'+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
 
 							# Рандом строка вместо текстов. Картинки и ссылки
-							# td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+self.word_gen(random.randint(3,38),lang)+random.choice(self.spaces)+random.choice(['<br/>'+random.choice(self.spaces),'<br/>'+random.choice(self.spaces)+'<br/>'])+random.choice(self.spaces)+self.word_gen(random.randint(3,48),lang)+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces)+'>'+random.choice(self.spaces)+self.word_gen(random.randint(1,2),lang)+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'</p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'<br/>'+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							# td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces_s)+'>'+'<p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+self.word_gen(random.randint(3,38),lang)+random.choice(self.spaces_s)+random.choice(['<br/>'+random.choice(self.spaces_s),'<br/>'+random.choice(self.spaces_s)+'<br/>'])+random.choice(self.spaces_s)+self.word_gen(random.randint(3,48),lang)+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+self.word_gen(random.randint(1,2),lang)+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'</p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'<br/>'+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
 							
 							# Только картинка в ссылке
-							# td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							# td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces_s)+'>'+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
 
 							# На месте картинок и ссылок просто рандом
-							# td = '<td '+random.choice(self.spaces)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces)+'>'+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+random_for_img+random_for_a+qoutes_a+random.choice(self.spaces)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+random_for_a2+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							# td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td',attr_effect='no')+random.choice(self.spaces_s)+'>'+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+random_for_img+random_for_a+qoutes_a+random.choice(self.spaces_s)+' '+self.attr_gen('a',attr_effect='no')+'>'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+random_for_a2+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+self.attr_gen('img',attr_effect='no')+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
 							
 						else:
-							td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+'</td'+random.choice(self.spaces)+'>'
+							td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td','opacity')+random.choice(self.spaces_s)+'>'+'</td'+random.choice(self.spaces_s)+'>'
 
 						table += td+random.choice(self.tabs)
 				else:
 					for i in xrange(random.randint(1,3)):
-						td = '<td '+random.choice(self.spaces)+self.attr_gen('td','opacity')+random.choice(self.spaces)+'>'+self.word_gen(random.randint(3,38),lang)+'</td'+random.choice(self.spaces)+'>'
+						td = '<td '+random.choice(self.spaces_s)+self.attr_gen('td','opacity')+random.choice(self.spaces_s)+'>'+self.word_gen(random.randint(3,38),lang)+'</td'+random.choice(self.spaces_s)+'>'
 						table += td+random.choice(self.tabs)
 
-				table += '</tr'+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+				table += '</tr'+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 
-			table += '</tbody'+random.choice(self.spaces)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces)+'>'+random.choice(self.tabs)
+			table += '</tbody'+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)+'</'+tagname+random.choice(self.spaces_s)+'>'+random.choice(self.tabs)
 			tag_str += table
 
 		return tag_str
@@ -300,11 +303,11 @@ class Tag():
 		domain = open('domain.txt','r').read().strip()
 
 		if tag=="img":
-			tag = '<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' >'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'
+			tag = '<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' >'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'
 		elif tag=='p+a+img':
-			tag = '<p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces)+random.choice(['<br/>'+random.choice(self.spaces),'<br/>'+random.choice(self.spaces)+'<br/>'])+random.choice(self.spaces)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'[%%ORandText,paysystem3713_link%%]'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'</p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'<br/>'+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' >'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'
+			tag = '<p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces_s)+random.choice(['<br/>'+random.choice(self.spaces_s),'<br/>'+random.choice(self.spaces_s)+'<br/>'])+random.choice(self.spaces_s)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+qoutes_a2+'http://'+domain+'/'+random_for_a2+qoutes_a2+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'[%%ORandText,paysystem3713_link%%]'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'</p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'<br/>'+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' >'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'
 		elif tag=='p+img':
-			tag = '<p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces)+random.choice(['<br/>'+random.choice(self.spaces),'<br/>'+random.choice(self.spaces)+'<br/>'])+random.choice(self.spaces)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces)+random.choice(self.spaces)+'</p'+random.choice(self.spaces)+'>'+random.choice(self.spaces)+'<br/>'+random.choice(self.spaces)+'<a '+random.choice(self.spaces)+'href'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces)+' >'+random.choice(self.spaces)+'<img '+random.choice(self.spaces)+'src'+random.choice(self.spaces)+'='+random.choice(self.spaces)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces)+'/>'+random.choice(self.spaces)+'</a'+random.choice(self.spaces)+'>'
+			tag = '<p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'[%%ORandText,paysystem3713_hello%%]'+random.choice(self.spaces_s)+random.choice(['<br/>'+random.choice(self.spaces_s),'<br/>'+random.choice(self.spaces_s)+'<br/>'])+random.choice(self.spaces_s)+'[%%ORandText,title_17_07_aws%%] '+random.choice(self.spaces_s)+random.choice(self.spaces_s)+'</p'+random.choice(self.spaces_s)+'>'+random.choice(self.spaces_s)+'<br/>'+random.choice(self.spaces_s)+'<a '+random.choice(self.spaces_s)+'href'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_a+'http://'+domain+'/'+random_for_a+qoutes_a+random.choice(self.spaces_s)+' >'+random.choice(self.spaces_s)+'<img '+random.choice(self.spaces_s)+'src'+random.choice(self.spaces_s)+'='+random.choice(self.spaces_s)+qoutes_img+'http://'+domain+'/'+random_for_img+'.jpg'+qoutes_img+' '+random.choice(self.spaces_s)+'/>'+random.choice(self.spaces_s)+'</a'+random.choice(self.spaces_s)+'>'
 		
 		return tag
 
@@ -318,9 +321,9 @@ class Tag():
 			words =' '.join(list_words)
 			return words
 
-	def spaces(self,match):
-		spaces = random.choice(self.spaces_words)
-		return spaces
+	def replace_spaces(self,match):
+		spaces2 = random.choice(self.spacewords)
+		return spaces2
 
 	def tabss(self,match):
 		tabsr = random.choice(self.tabs)
@@ -353,23 +356,37 @@ class Tag():
 		str_ready = self.word_gen(1,'eng')
 		return str_ready
 
+	def replace_faketag(self,match):
+		nametag = match.group('name').lower()
+		if match.group('lang'):
+			lang = match.group('lang').lower()
+			var_text = 'yes'
+			if match.group('lang')=='NO':
+				var_text = 'no'
+
+
+		faketag = self.tag_fake(nametag,1,'opacity',lang=lang,text=var_text)
+		return faketag
+
 	
 
 
 	def body(self,filename,counttext):
-		# _DIGIT_267_0_10_
+		# _DIGIT_267_3_10_   Вставляем вместо числе. 267 - само число. 3_10 - значить рандомное изменение от -3 до 10
 		# _FONT_STYLE_
 		# _FONT_FAMILY_
-		# _SPACES_
-		# _TAB_
-		# _CLASS_
-		# _DATA_
-		# _FAKE_DIV_TEXT_RU
-		# _LINK1_
-		# _LINK2_
-		# _IMG_
-		# _HELLO_
-		# _BUTTONTEXT_
+		# _SPACES_  Вставляем в любое место где хотим вставить случайные пробелы
+		# _TAB_  Вставляем в любое место где хотим вставить случайные табы \n \t и так далее
+		# _CLASS_ Вставляем в значеие атрибута class. Генерит случайное английское значение. Пример class="_CLASS_"
+		# _DATA_ Вставляем вместо атрибута data. Генерит случайное английское значение и название атрибута.
+		# _FAKETAG_TABLE_ENG_ Подставляет файковый тег. Если без последней части ENG(также можно RU) - будет без наполнения
+		# _FAKE_STYLE_
+		# _LINK1_ Вставляем в значение ссылки href="_LINK1_"
+		# _LINK2_ Вставляем в значение ссылки href="_LINK2_"
+		# _IMG_ Вставляем в значение картинки src="_IMG_"
+		# _HELLO_ Вставляем на место приветсвия
+		# _BUTTONTEXT_ Вставляем на место текста кнопки или ссылки
+		# _TEXT_ Вставляем на место текста
 
 		html = open('gen/templates/body/'+filename,'r').read()
 		body = ''
@@ -395,9 +412,9 @@ class Tag():
 			text = regex_mix.sub(self.mix,text)
 
 		# Replace spaces
-		spaces = re.compile(r'(_SPACES_)')
+		spacestemp = re.compile(r'(_SPACES_)')
 		while text.find('_SPACES_')!= -1:
-			text = spaces.sub(self.spaces,text)
+			text = spacestemp.sub(self.replace_spaces,text)
 
 		# Replace tabs
 		tabs = re.compile(r'(_TAB_)')
@@ -418,9 +435,9 @@ class Tag():
 		random_link2 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
 		random_img = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))		
 		domain = open('gen/templates/domain.txt','r').read().strip()
-		link1 = domain+'/'+random_link1
-		link2 = domain+'/'+random_link2
-		img = domain+'/'+random_img+'.jpg'
+		link1 = 'http://'+domain+'/'+random_link1
+		link2 = 'http://'+domain+'/'+random_link2
+		img = 'http://'+domain+'/'+random_img+'.jpg'
 
 		body += html.replace('_HELLO_', hello).replace('_TEXT_', text).replace('_LINK1_',link1).replace('_LINK2_',link2).replace('_IMG_',img).replace('_BUTTONTEXT_',button_text)
 
@@ -429,9 +446,9 @@ class Tag():
 		###STYLE GENERATE
 
 		# Replace spaces
-		spaces = re.compile(r'(_SPACES_)')
+		spaces3 = re.compile(r'(_SPACES_)')
 		while body.find('_SPACES_')!= -1:
-			body = spaces.sub(self.spaces,body)
+			body = spaces3.sub(self.replace_spaces,body)
 
 		# Replace tabs
 		tabs = re.compile(r'(_TAB_)')
@@ -457,6 +474,11 @@ class Tag():
 		classattr = re.compile(r'(_CLASS_)')
 		while body.find('_CLASS_')!= -1:
 			body = classattr.sub(self.replace_class,body)
+
+		# Replace FAKETAG
+		faketag = re.compile(r'(_FAKETAG_(?P<name>[^_]+)_*(?P<lang>[^_]*)_+)')
+		while body.find('_FAKETAG_')!= -1:
+			body = faketag.sub(self.replace_faketag,body)			
 
 
 		###STYLE GENERATE END
