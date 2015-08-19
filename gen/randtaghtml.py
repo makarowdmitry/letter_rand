@@ -12,6 +12,7 @@ class Tag():
 	tabs = ['\n','','\n\n','\t','\t\n','\n\n\n\n','\n\n\n']
 	punctuation = [',','!','?','.','.','.',',','','','-',';',':']
 	br_tag=['<br >','<br/>','<br>','','']
+	font_family = ["'Courier New', Courier, monospace","Arial, Helvetica, sans-serif",'Verdana','Tahoma']
 	
 
 	tag = {
@@ -371,7 +372,7 @@ class Tag():
 	def replace_usertag(self,match):
 		nametag = match.group('name').lower().replace('_','')
 		list_files = os.listdir('gen/templates/user_macro')
-		
+
 		if nametag in list_files:
 			list_files_userdir = os.listdir('gen/templates/user_macro/'+nametag)
 			file_choice = random.choice(list_files_userdir)
@@ -384,26 +385,12 @@ class Tag():
 
 		return datauser
 
-	
+	def replace_font_family(self,match):
+		font_family_this = 'font-family:'+random.choice(self.font_family)+';'
+		return font_family_this	
 
 
 	def body(self,filename,counttext):
-		# _DIGIT_267_3_10_   Вставляем вместо числе. 267 - само число. 3_10 - значить рандомное изменение от -3 до 10
-		# _FONT_STYLE_
-		# _FONT_FAMILY_
-		# _SPACES_  Вставляем в любое место где хотим вставить случайные пробелы
-		# _TAB_  Вставляем в любое место где хотим вставить случайные табы \n \t и так далее
-		# _CLASS_ Вставляем в значеие атрибута class. Генерит случайное английское значение. Пример class="_CLASS_"
-		# _DATA_ Вставляем вместо атрибута data. Генерит случайное английское значение и название атрибута.
-		# _FAKETAG_TABLE_ENG_ Подставляет файковый тег. Если без последней части ENG(также можно RU) - будет без наполнения
-		# _FAKE_STYLE_
-		# _LINK1_ Вставляем в значение ссылки href="_LINK1_"
-		# _LINK2_ Вставляем в значение ссылки href="_LINK2_"
-		# _IMG_ Вставляем в значение картинки src="_IMG_"
-		# _HELLO_ Вставляем на место приветсвия
-		# _BUTTONTEXT_ Вставляем на место текста кнопки или ссылки
-		# _TEXT_ Вставляем на место текста
-
 		html = open('gen/templates/body/'+filename,'r').read()
 		body = ''
 
@@ -500,6 +487,13 @@ class Tag():
 		usertag = re.compile(r'(_USER_(?P<name>[^_]+)_)')
 		while body.find('_USER_')!= -1:
 			body = usertag.sub(self.replace_usertag,body)
+
+		# Replace FONT FAMILY
+		font_family_html = re.compile(r'(_FONT_FAMILY_)')
+		while body.find('_FONT_FAMILY_')!= -1:
+			body = font_family_html.sub(self.replace_font_family,body)
+
+		
 
 
 		###STYLE GENERATE END
