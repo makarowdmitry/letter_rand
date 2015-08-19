@@ -333,27 +333,33 @@ class Tag():
 	def replace_qoutes(self,match):
 		qoutes = random.choice(['\'','\"'])
 		b=match.group().replace('_QOUTE_',qoutes)
-
 		return b
 
+	def replace_digit(self,match):
+		a = match.group()
+		str_digit = int(match.group('digit'))
+		str_start = int(match.group('s'))
+		str_end = int(match.group('e'))
+		# if str_start==0:
+		# 	a = str(str_digit+random.randint(0,str_end),str_digit-random.randint(str_start,str_end)]))		
+		str_ready = str(str_digit+random.randint(-str_start,str_end))
+		return str_ready
+
+
 	def body(self,filename,counttext):
-		# _BORDER_ 
-		# _WIDTH_X_Y_
-		# _HEIGHT_X_Y_
-		# _COLOR_X_
+		# _DIGIT_267_0_10_
 		# _FONT_STYLE_
 		# _FONT_FAMILY_
-		# _FONT_SIZE_
 		# _SPACES_
 		# _TAB_
 		# _CLASS_
 		# _DATA_
-		#_BACKGROUND_
-		#_FAKE_DIV_TEXT_RU
+		# _FAKE_DIV_TEXT_RU
 		# _LINK1_
 		# _LINK2_
 		# _IMG_
-		# _LINKTEXT_		
+		# _HELLO_
+		# _BUTTONTEXT_
 
 		html = open('gen/templates/body/'+filename,'r').read()
 		body = ''
@@ -426,6 +432,12 @@ class Tag():
 		qoutes = re.compile(r'(_QOUTE_.*[.]*_QOUTE_)')
 		while body.find('_QOUTE_')!= -1:
 			body = qoutes.sub(self.replace_qoutes,body)
+		
+		# Replace digit
+		digit_html = re.compile(r'(_DIGIT_(?P<digit>[0-9]+)_(?P<s>[0-9]+)_(?P<e>[0-9]+)_)')
+		while body.find('_DIGIT_')!= -1:
+			body = digit_html.sub(self.replace_digit,body)
+
 
 		###STYLE GENERATE END
 		return body
