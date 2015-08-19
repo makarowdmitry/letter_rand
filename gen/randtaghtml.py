@@ -330,6 +330,12 @@ class Tag():
 		br = random.choice(self.br_tag)
 		return br
 
+	def replace_qoutes(self,match):
+		qoutes = random.choice(['\'','\"'])
+		b=match.group().replace('_QOUTE_',qoutes)
+
+		return b
+
 	def body(self,filename,counttext):
 		# _BORDER_ 
 		# _WIDTH_X_Y_
@@ -405,6 +411,21 @@ class Tag():
 		###CONTENT GENERATE END
 
 		###STYLE GENERATE
+
+		# Replace spaces
+		spaces = re.compile(r'(_SPACES_)')
+		while body.find('_SPACES_')!= -1:
+			body = spaces.sub(self.spaces,body)
+
+		# Replace tabs
+		tabs = re.compile(r'(_TAB_)')
+		while body.find('_TAB_')!= -1:
+			body = tabs.sub(self.tabss,body)
+
+		# Replace qoutes
+		qoutes = re.compile(r'(_QOUTE_.*[.]*_QOUTE_)')
+		while body.find('_QOUTE_')!= -1:
+			body = qoutes.sub(self.replace_qoutes,body)
 
 		###STYLE GENERATE END
 		return body
