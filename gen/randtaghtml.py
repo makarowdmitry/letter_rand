@@ -33,7 +33,7 @@ class Tag():
 				consonants = ['й','ц','к','н','г','ш','щ','з','х','ъ','ф','в','п','р','л','д','ж','ч','с','м','т','ь','б']
 
 			word = ''
-			for w in range(random.randint(1,2)):
+			for w in range(random.randint(1,3)):
 				abc_list = [''.join(random.sample(vowels,random.randint(1,2))), ''.join(random.sample(consonants,random.randint(1,2)))]
 				random.shuffle(abc_list)
 				word += ''.join(abc_list)
@@ -345,6 +345,16 @@ class Tag():
 		str_ready = str(str_digit+random.randint(-str_start,str_end))
 		return str_ready
 
+	def replace_datatag(self,match):	
+		str_ready = 'data-'+self.word_gen(1,'eng')+'="'+self.word_gen(1,'eng')+'"'
+		return str_ready
+
+	def replace_class(self,match):	
+		str_ready = self.word_gen(1,'eng')
+		return str_ready
+
+	
+
 
 	def body(self,filename,counttext):
 		# _DIGIT_267_0_10_
@@ -437,6 +447,16 @@ class Tag():
 		digit_html = re.compile(r'(_DIGIT_(?P<digit>[0-9]+)_(?P<s>[0-9]+)_(?P<e>[0-9]+)_)')
 		while body.find('_DIGIT_')!= -1:
 			body = digit_html.sub(self.replace_digit,body)
+
+		# Replace datatag
+		datatag = re.compile(r'(_DATA_)')
+		while body.find('_DATA_')!= -1:
+			body = datatag.sub(self.replace_datatag,body)
+
+		# Replace class
+		classattr = re.compile(r'(_CLASS_)')
+		while body.find('_CLASS_')!= -1:
+			body = classattr.sub(self.replace_class,body)
 
 
 		###STYLE GENERATE END
