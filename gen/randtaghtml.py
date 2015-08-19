@@ -2,6 +2,7 @@
 import string
 import random
 import re
+import os
 
 
 
@@ -364,9 +365,24 @@ class Tag():
 			if match.group('lang')=='NO':
 				var_text = 'no'
 
-
 		faketag = self.tag_fake(nametag,1,'opacity',lang=lang,text=var_text)
 		return faketag
+
+	def replace_usertag(self,match):
+		nametag = match.group('name').lower().replace('_','')
+		list_files = os.listdir('gen/templates/user_macro')
+		
+		if nametag in list_files:
+			list_files_userdir = os.listdir('gen/templates/user_macro/'+nametag)
+			file_choice = random.choice(list_files_userdir)
+			datauser = open('gen/templates/user_macro/'+nametag+'/'+file_choice).read()
+		elif nametag+'.txt' in list_files:
+			datauser_lst = open('gen/templates/user_macro/'+nametag+'.txt').readlines()
+			datauser = random.choice(datauser_lst)
+		else:
+			datauser = ''
+
+		return datauser
 
 	
 
@@ -478,7 +494,12 @@ class Tag():
 		# Replace FAKETAG
 		faketag = re.compile(r'(_FAKETAG_(?P<name>[^_]+)_*(?P<lang>[^_]*)_+)')
 		while body.find('_FAKETAG_')!= -1:
-			body = faketag.sub(self.replace_faketag,body)			
+			body = faketag.sub(self.replace_faketag,body)
+
+		# Replace USERTAGS
+		usertag = re.compile(r'(_USER_(?P<name>[^_]+)_)')
+		while body.find('_USER_')!= -1:
+			body = usertag.sub(self.replace_usertag,body)
 
 
 		###STYLE GENERATE END

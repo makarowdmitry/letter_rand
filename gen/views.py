@@ -34,12 +34,10 @@ def body(request):
 
 
 
-	a = tag.body(filename=filename,counttext=counttext)
+	a = tag.body(filename='1.html',counttext=counttext)
 
 	# a = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
 	# fake_tag2 = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
-	
-	
 	
 	# a = fake_tag1+tag.tag_general('table',1,lang='rus')+fake_tag2
 	# a = tag.tag_general('table',random.randint(1,3))
