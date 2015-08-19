@@ -9,7 +9,7 @@ import os
 class Tag():
 	spaces_s = [' ','','']
 	spacewords = [' ','   ']
-	tabs = ['\n','','\n\n','\t','\t\n']
+	tabs = ['\n','','\n\n','\t','\t\n','\n\n\n\n','\n\n\n']
 	punctuation = [',','!','?','.','.','.',',','','','-',';',':']
 	br_tag=['<br >','<br/>','<br>','','']
 	font_family = ["'Courier New', Courier, monospace","Arial, Helvetica, sans-serif",'Verdana','Tahoma']
@@ -391,46 +391,16 @@ class Tag():
 
 	# Methods for body_raw
 	def replace_digit_raw_body(self,match):
-		sym1= match.group('sym1')
 		sym = match.group('sym')
 		digit = match.group('digit')
 		if int(digit) in range(10,90):
-			new_digit = sym1+'_DIGIT_'+digit+'_2_4_'+sym
-		elif int(digit)in range(90,101):
-			new_digit = sym1+'_DIGIT_'+digit+'_5_0_'+sym
+			new_digit = '_DIGIT_'+digit+'_3_3_'
 		elif int(digit)>100:
-			new_digit = sym1+'_DIGIT_'+digit+'_35_35_'+sym
-		elif int(digit)in range(2,10):
-			new_digit = sym1+'_DIGIT_'+digit+'_2_2_'+sym
+			new_digit = '_DIGIT_'+digit+'_13_13_'
 		else:
-			new_digit = sym1+digit+sym			
+			new_digit = digit+sym
+			
 		return new_digit
-
-	def replace_datatag_raw_body(self,match):	
-		return '_DATA_'
-
-	def replace_class_raw_body(self,match):	
-		return 'class="_CLASS_"'
-
-	def replace_fontf_raw_body(self,match):
-		return '_FONT_FAMILY_'
-
-	def replace_href_raw_body(self,match):
-		return 'a href="_LINK'+random.choice(['1','2'])+'_"'
-
-	def replace_src_raw_body(self,match):
-		return 'img src="_IMG_"'
-
-	def replace_tabs_raw_body(self,match):
-		tag= match.group('tab')
-		return tag+'_TAB_'
-
-	def replace_qoutes_raw_body(self,match):
-		return '_QOUTE_'
-
-	def replace_spaces_raw_body(self,match):
-		return '_SPACES_'
-	
 
 	def body(self,filename,counttext):
 		html = open('gen/templates/body/'+filename,'r').read()
@@ -484,7 +454,7 @@ class Tag():
 		link2 = 'http://'+domain+'/'+random_link2
 		img = 'http://'+domain+'/'+random_img+'.jpg'
 
-		body += html.replace('_HELLO_', hello).replace('_TEXT_', text).replace('_LINK1_',link1).replace('_LINK2_',link2).replace('_IMG_',img).replace('_BUTTON_',button_text)
+		body += html.replace('_HELLO_', hello).replace('_TEXT_', text).replace('_LINK1_',link1).replace('_LINK2_',link2).replace('_IMG_',img).replace('_BUTTONTEXT_',button_text)
 
 		###CONTENT GENERATE END
 
@@ -534,6 +504,11 @@ class Tag():
 		font_family_html = re.compile(r'(_FONT_FAMILY_)')
 		while body.find('_FONT_FAMILY_')!= -1:
 			body = font_family_html.sub(self.replace_font_family,body)
+
+		
+
+
+		
 
 
 		###STYLE GENERATE END
