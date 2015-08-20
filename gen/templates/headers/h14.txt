@@ -1,8 +1,0 @@
-Content-Type: [%%HMsgContentType%%]
-Date: [%%HCurrentRFCDateTime%%]
-To: [%%FEmail%%]
-Subject: [%%HSubject%%]
-MIME-Version: 1.0
-From: [%%HEncodedFullFrom%%]
-Message-ID: <[%%ORandStr,7-10,1-9,U%%].[%%HCurrentYear%%][%%HCurrentMonth%%][%%HCurrentDay%%][%%HCurrentHour%%][%%HCurrentMin%%][%%HCurrentSec%%]@[%%HFromEmailDomain%%]>
-User-Agent: Opera Mail/1.0 (Win32)

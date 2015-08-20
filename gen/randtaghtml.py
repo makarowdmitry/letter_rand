@@ -439,11 +439,11 @@ class Tag():
 		###CONTENT GENERATE
 
 		#HELLO GENERATE
-		hello_raw = open('gen/templates/hello.txt','r').readlines()
+		hello_raw = open('gen/templates/user_macro/+hello.txt','r').readlines()
 		hello = hello_raw[counttext%len(hello_raw)]
 
 		#TEXT GENERATE
-		text = open('gen/templates/text.txt','r').readlines()
+		text = open('gen/templates/user_macro/+text.txt','r').readlines()
 		text = text[counttext%len(text)]
 
 		# Processing synonyms
@@ -472,14 +472,14 @@ class Tag():
 			text = brs.sub(self.replace_br,text)
 
 		#TEXT_BUTTON GENERATE
-		button_text_raw = open('gen/templates/button_text.txt','r').readlines()
+		button_text_raw = open('gen/templates/user_macro/+button_text.txt','r').readlines()
 		button_text = button_text_raw[counttext%len(button_text_raw)]
 
 		#LINKS GENERATE
 		random_link1 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
 		random_link2 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
 		random_img = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))		
-		domain = open('gen/templates/domain.txt','r').read().strip()
+		domain = open('gen/templates/user_macro/+domain.txt','r').read().strip()
 		link1 = 'http://'+domain+'/'+random_link1
 		link2 = 'http://'+domain+'/'+random_link2
 		img = 'http://'+domain+'/'+random_img+'.jpg'
@@ -534,6 +534,8 @@ class Tag():
 		font_family_html = re.compile(r'(_FONT_FAMILY_)')
 		while body.find('_FONT_FAMILY_')!= -1:
 			body = font_family_html.sub(self.replace_font_family,body)
+
+		body = body.replace('_HEADERS_','[%%ORandMessageHeader,'+os.getcwd()+'\gen\\templates\headers,1%%]')
 
 
 		###STYLE GENERATE END

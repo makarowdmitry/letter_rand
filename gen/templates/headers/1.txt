@@ -1,8 +1,8 @@
 Message-ID: <[%%ORandStr,7-10,1-9,U%%].[%%HCurrentYear%%][%%HCurrentMonth%%][%%HCurrentDay%%][%%HCurrentHour%%][%%HCurrentMin%%][%%HCurrentSec%%]@[%%HFromEmailDomain%%]>
-Date: [%%HCurrentRFCDateTime%%]
-From: [%%HEncodedFullFrom%%]
-User-Agent: Microsoft Office/14.0 (Windows NT 5.1; Microsoft Outlook 14.0.4536; Pro; MSOffice 14)
-MIME-Version: 1.0
+Date: [%%HRandRFCDateTime%%]
+From: [%%HFromEmail%%]
+X-Priority: [%%HPriorityNumber%%] ([%%HPriorityString%%])
 To: [%%FEmail%%]
 Subject: [%%HSubject%%]
+MIME-Version: 1.0
 Content-Type: [%%HMsgContentType%%]

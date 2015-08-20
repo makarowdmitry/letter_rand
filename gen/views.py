@@ -35,7 +35,7 @@ def body(request):
 	filename = random.choice(files_html)
 
 
-	a = tag.body(filename=filename,counttext=counttext)
+	a = tag.body(filename=filename,counttext=counttext).decode('utf8')
 
 	# a = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
 	# fake_tag2 = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
@@ -82,6 +82,8 @@ def proc(request):
 		# Подстановка нескольких _TAB_ между тегами
 		tad_temp = re.compile(r'(?P<tab></.+?>|<.+?>)')
 		html_this = tad_temp.sub(tag.replace_tabs_raw_body,html_this)
+
+		html_this = '_HEADERS_ _USER_HEADERS_'+html_this+'_USER_FOOTERS_'
 
 		# # Замена всех пробелов на _SPACES_
 		# spaces_temp = re.compile(r'(\s+)')
