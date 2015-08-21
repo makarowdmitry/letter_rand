@@ -5,4 +5,5 @@ from gen.views import *
 urlpatterns = [
     url(r'^body/$', body),
     url(r'^proc/$', proc),
+    url(r'^text/$', text),
 ]

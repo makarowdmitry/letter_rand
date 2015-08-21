@@ -35,7 +35,7 @@ def body(request):
 	filename = random.choice(files_html)
 
 
-	a = tag.body(filename=filename,counttext=counttext).decode('utf8')
+	a = tag.body(filename=filename,counttext=counttext)
 
 	# a = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
 	# fake_tag2 = ''.join(random.sample([tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus'),tag.tag_fake('table',1,'opacity',lang='rus')],random.randint(1,7)))
@@ -46,6 +46,27 @@ def body(request):
 	# Просто картинки в ссылку обернутую или текст. Бес стилей и прочего. Можно ставить или img или p+a+img или p+img
 	# a = tag.tag_simple('img')
 	return render_to_response('body.html',{'rand':a})
+
+def text(request):
+	tag = Tag()
+
+	# How sent letter
+	count = 1
+
+	counter_file = open('gen/templates/counter.txt','r')
+	counter = int(counter_file.read().strip())
+	counter_file.close()
+
+	counttext = int(math.ceil(counter/count))
+
+	new_counter = open('gen/templates/counter.txt','w')
+	new_counter.write(str(1+counter))
+	new_counter.close()
+
+	text = tag.text(counttext=counttext)
+
+	return render_to_response('text.txt',{'text':text})
+
 
 
 def proc(request):

@@ -24,6 +24,15 @@ class Tag():
 	'tbody':[],
 	}
 
+	encodings = {
+    'UTF-8':'utf8',
+    'CP1251':'cp1251',
+    'KOI8-R':'koi8-r',
+    'IBM866':'ibm866',
+    'ISO-8859-5':'iso-8859-5',
+    'MAC':'mac',
+	}
+
 	def word_gen(self,count,lang='eng'):
 		words =''
 		for i,ws in enumerate(range(count)):
@@ -430,10 +439,79 @@ class Tag():
 
 	def replace_spaces_raw_body(self,match):
 		return '_SPACES_'
+
+	"""
+	Определение кодировки текста
+	"""
+	def get_codepage(self,str = None):
+	    uppercase = 1
+	    lowercase = 3
+	    utfupper = 5
+	    utflower = 7
+	    codepages = {}
+	    for enc in self.encodings.keys():
+	        codepages[enc] = 0
+	    if str is not None and len(str) > 0:
+	        last_simb = 0
+	        for simb in str:
+	            simb_ord = ord(simb)
+
+	            """non-russian characters"""
+	            if simb_ord < 128 or simb_ord > 256:
+	                continue
+
+	            """UTF-8"""
+	            if last_simb == 208 and (143 < simb_ord < 176 or simb_ord == 129):
+	                codepages['UTF-8'] += (utfupper * 2)
+	            if (last_simb == 208 and (simb_ord == 145 or 175 < simb_ord < 192)) \
+	                or (last_simb == 209 and (127 < simb_ord < 144)):
+	                codepages['UTF-8'] += (utflower * 2)
+
+	            """CP1251"""
+	            if 223 < simb_ord < 256 or simb_ord == 184:
+	                codepages['CP1251'] += lowercase
+	            if 191 < simb_ord < 224 or simb_ord == 168:
+	                codepages['CP1251'] += uppercase
+
+	            """KOI8-R"""
+	            if 191 < simb_ord < 224 or simb_ord == 163:
+	                codepages['KOI8-R'] += lowercase
+	            if 222 < simb_ord < 256 or simb_ord == 179:
+	                codepages['KOI8-R'] += uppercase
+
+	            """IBM866"""
+	            if 159 < simb_ord < 176 or 223 < simb_ord < 241:
+	                codepages['IBM866'] += lowercase
+	            if 127 < simb_ord < 160 or simb_ord == 241:
+	                codepages['IBM866'] += uppercase
+
+	            """ISO-8859-5"""
+	            if 207 < simb_ord < 240 or simb_ord == 161:
+	                codepages['ISO-8859-5'] += lowercase
+	            if 175 < simb_ord < 208 or simb_ord == 241:
+	                codepages['ISO-8859-5'] += uppercase
+
+	            """MAC"""
+	            if 221 < simb_ord < 255:
+	                codepages['MAC'] += lowercase
+	            if 127 < simb_ord < 160:
+	                codepages['MAC'] += uppercase
+
+	            last_simb = simb_ord
+
+	        idx = ''
+	        max = 0
+	        for item in codepages:
+	            if codepages[item] > max:
+	                max = codepages[item]
+	                idx = item
+	        return idx
 	
 
 	def body(self,filename,counttext):
 		html = open('gen/templates/body/'+filename,'r').read()
+		# encoddingfile = self.encodings[self.get_codepage(html)]
+		# html = html.decode(encoddingfile)
 		body = ''
 
 		###CONTENT GENERATE
@@ -535,7 +613,60 @@ class Tag():
 		while body.find('_FONT_FAMILY_')!= -1:
 			body = font_family_html.sub(self.replace_font_family,body)
 
-		body = body.replace('_HEADERS_','[%%ORandMessageHeader,'+os.getcwd()+'\gen\\templates\headers,1%%]')
+		headers_my = '[%%ORandMessageHeader,'+os.getcwd()+'\gen\\templates\headers,1%%]'
+
+		body = body.replace('_HEADERS_',headers_my)
+
+
+		###STYLE GENERATE END
+		return body
+
+
+	def text(self,counttext):
+		body = ''
+
+		###CONTENT GENERATE
+
+		#HELLO GENERATE
+		hello_raw = open('gen/templates/user_macro/+hello.txt','r').readlines()
+		hello = hello_raw[counttext%len(hello_raw)]
+
+		#TEXT GENERATE
+		text = open('gen/templates/user_macro/+text.txt','r').readlines()
+		text = text[counttext%len(text)]
+
+		# Processing synonyms
+		regex_synonyms = re.compile(r'(?P<synonyms>{[^{}]+})')
+		while text.find('{')!= -1:
+			text = regex_synonyms.sub(self.synonyms,text)
+
+		# Processing mix
+		regex_mix = re.compile(r'(?P<mix>\[[^\[\]]+\])')
+		while text.find('[')!= -1:
+			text = regex_mix.sub(self.mix,text)
+
+		# Replace spaces
+		spacestemp = re.compile(r'(_SPACES_)')
+		while text.find('_SPACES_')!= -1:
+			text = spacestemp.sub(self.replace_spaces,text)
+
+		# Replace tabs
+		tabs = re.compile(r'(_TAB_)')
+		while text.find('_TAB_')!= -1:
+			text = tabs.sub(self.tabss,text)
+
+		#LINKS GENERATE
+		random_link1 = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(random.randint(3,13)))
+		domain = open('gen/templates/user_macro/+domain.txt','r').read().strip()
+		link1 = 'http://'+domain+'/'+random_link1	
+
+		body += text+'  '+link1+'\n\n_HEADERS_'
+
+		###CONTENT GENERATE END		
+
+		headers_my = '[%%ORandMessageHeader,'+os.getcwd()+'\gen\\templates\headers,1%%]'
+
+		body = body.replace('_HEADERS_',headers_my)
 
 
 		###STYLE GENERATE END
